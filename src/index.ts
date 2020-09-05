@@ -4,5 +4,11 @@
 import { Edge } from './core/edge'
 import { Graph } from './core/graph'
 import { Vertex } from './core/vertex'
+import { CardTriple } from './card-triple-graph/card-triple'
+import { CardGraph } from './card-triple-graph/card-graph'
+import { CardNode } from './card-triple-graph/card-node'
+
+
 
 export { Edge, Graph, Vertex }
+export { CardTriple, CardGraph, CardNode }

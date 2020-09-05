@@ -21,7 +21,9 @@ export class CardGraph<N extends CardNode, T extends CardTriple<N>> {
    * @protected
    * @memberof Graph
    */
-  protected readonly triples = new HashSet<T>()
+  protected readonly triples = new HashSet<T>();
+
+  protected readonly predicates = new HashSet<T>();
 
   tripleMatrix: any = {};
 
@@ -55,9 +57,7 @@ export class CardGraph<N extends CardNode, T extends CardTriple<N>> {
     if (!this.containsNode(triple.subject)) {
       throw Error('subject of triple not found in graph')
     }
-    if (!this.containsNode(triple.predicate)) {
-      throw Error('predicate of triple not found in graph')
-    }
+
     if (!this.containsNode(triple.object)) {
       throw Error('object of triple not found in graph')
     }
@@ -70,12 +70,16 @@ export class CardGraph<N extends CardNode, T extends CardTriple<N>> {
       this.tripleMatrix[triple.subject][triple.object] = {};
     }
 
-    this.tripleMatrix[triple.subject][triple.object] = triple.predicate;
+    const contained = this.containsTriple(triple)
 
-    this.map.get(triple.subject)!.add(triple)
-    this.triples.add(triple)
+    if (!contained) {
+      this.tripleMatrix[triple.subject][triple.object] = triple.predicate;
 
-    return true;
+      this.map.get(triple.subject)!.add(triple)
+      this.triples.add(triple)
+    }
+
+    return !contained;
   }
 
 

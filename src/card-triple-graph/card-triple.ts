@@ -7,7 +7,7 @@ export class CardTriple<N extends CardNode> implements Hashable {
   readonly object: N
   weight: number
 
-  constructor(subject: N, object: N, predicate: N, weight: number = 1) {
+  constructor(subject: N, predicate: N, object: N, weight: number = 1) {
     this.subject = subject;
     this.predicate = predicate;
     this.object = object;
@@ -31,13 +31,13 @@ export class CardTriple<N extends CardNode> implements Hashable {
     return new CardTriple<N>(this.object, this.predicate, this.subject, this.weight) as E
   }
 
-  getOppositeVertex(v: N): N {
+  getOppositeNode(v: N): N {
     if (this.subject.equals(v)) {
       return this.object
     } else if (this.object.equals(v)) {
       return this.subject
     } else {
-      throw Error(`neither subject nor object vertex: ${v}`)
+      throw Error(`neither subject nor object node: ${v}`)
     }
   }
 }
