@@ -227,6 +227,7 @@ export class CardGraph<N extends CardNode, T extends CardTriple<N>> {
    */
   incomingTriplesOf(node: N): HashSet<T> {
     const triples = new HashSet<T>()
+
     for (const outgoing of this.map.values()) {
       for (const triple of outgoing) {
         if (triple.object.equals(node)) {
@@ -407,4 +408,15 @@ export class CardGraph<N extends CardNode, T extends CardTriple<N>> {
     return null;
   };
 
+  getRootNodes(): N[] {
+    const self = this;
+    const result: N[] = []
+
+    self.map.forEach((value, node: N) => {
+      if (self.inDegreeOf(node) === 0) {
+        result.push(node)
+      }
+    })
+    return result;
+  }
 }

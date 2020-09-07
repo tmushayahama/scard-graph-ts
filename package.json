@@ -1,11 +1,11 @@
 {
   "name": "scard-graph-ts",
-  "version": "0.0.1",
+  "version": "0.1.2",
   "description": "",
   "keywords": [],
   "main": "dist/scard-graph-ts.umd.js",
   "module": "dist/scard-graph-ts.es5.js",
-  "typings": "dist/types/scard-graph-ts.d.ts",
+  "typings": "dist/types/index.d.ts",
   "files": [
     "dist"
   ],
@@ -23,6 +23,7 @@
     "prebuild": "rimraf dist",
     "build": "tsc --module commonjs && rollup -c rollup.config.ts && typedoc --out docs --target es6 --theme minimal --mode file src",
     "start": "rollup -c rollup.config.ts -w",
+    "start:dev": "babel-node --presets es2015 dist/lib/quick-test.js",
     "test": "jest --config jestconfig.json",
     "test:watch": "jest --coverage --config jestconfig.json --watch",
     "test:prod": "npm run lint && npm run test -- --no-cache",
@@ -93,6 +94,8 @@
   "dependencies": {
     "@types/lodash": "^4.14.161",
     "D": "^1.0.0",
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
     "lodash": "^4.17.20"
   }
 }

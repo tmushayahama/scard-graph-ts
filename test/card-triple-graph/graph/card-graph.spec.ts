@@ -1,8 +1,8 @@
 
-import { HashSet } from '../../src/hash/hashset'
-import { CardNode } from '../../src/card-triple-graph/card-node'
-import { CardTriple } from '../../src/card-triple-graph/card-triple'
-import { CardGraph } from '../../src/card-triple-graph/card-graph'
+import { HashSet } from '../../../src/hash/hashset'
+import { CardNode } from '../../../src/card-triple-graph/card-node'
+import { CardTriple } from '../../../src/card-triple-graph/card-triple'
+import { CardGraph } from '../../../src/card-triple-graph/card-graph'
 
 describe('CardGraph', () => {
   let subject: CardNode;
