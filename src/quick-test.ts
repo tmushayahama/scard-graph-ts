@@ -15,7 +15,9 @@ function create() {
     graph.addNodes([n1, n2, n3, n4])
     graph.addTriples([t1, t2, t3]);
 
-    console.log(graph.getRootNodes());
+    console.log(graph.getNode('n2'))
+
+    //console.log(graph.getRootNodes());
 }
 
 create();

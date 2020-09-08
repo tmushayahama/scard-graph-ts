@@ -1,11 +1,11 @@
-import { each } from 'lodash';
+import { find } from 'lodash';
 import { HashMap } from '../hash/hashmap'
 import { HashSet } from '../hash/hashset'
 import { CardNode } from './card-node'
 import { CardTriple } from './card-triple'
 
 /**
- * A graph <tt>G(V,E)</tt> contains a set <tt>V</tt> of vertices and a set <tt>E</tt> of triples.
+ * A graph <tt>G(V,E)</tt> contains a set <tt>V</tt> of nodes and a set <tt>E</tt> of triples.
  *
  * @class Graph
  * @template N the graph node type.
@@ -38,16 +38,29 @@ export class CardGraph<N extends CardNode, T extends CardTriple<N>> {
     return !contained
   }
 
+  getNode(id: String): N | undefined {
+    let result;
+    this.nodeSet().forEach(subject => {
+      if (subject.id === id) {
+        result = subject;
+        return;
+      }
+
+    })
+
+    return result;
+  }
+
   /**
-   * Adds multiple vertices to the graph.
+   * Adds multiple nodes to the graph.
    *
-   * @param {N[]} vertices the vertices to be added to this graph.
+   * @param {N[]} nodes the nodes to be added to this graph.
    * @returns {boolean} <tt>true</tt> if this graph was modified as result of the call.
    * @memberof Graph
    */
-  addNodes(vertices: N[]): boolean {
+  addNodes(nodes: N[]): boolean {
     let modified = false
-    for (const node of vertices) {
+    for (const node of nodes) {
       modified = this.addNode(node) || modified
     }
     return modified
@@ -98,10 +111,18 @@ export class CardGraph<N extends CardNode, T extends CardTriple<N>> {
     return modified
   }
 
+  addTripleByIds(s: string, p: string, o: string) {
+    const subject = this.getNode(s) as N;
+    const predicate = this.getNode(p) as N;
+    const object = this.getNode(o) as N;
+
+    this.addTriple(new CardTriple<N>(subject, predicate, object) as T)
+  }
+
   /**
-   * Returns a set of the vertices contained in this graph.
+   * Returns a set of the nodes contained in this graph.
    *
-   * @returns {HashSet<N>} a set of the vertices contained in this graph.
+   * @returns {HashSet<N>} a set of the nodes contained in this graph.
    * @memberof Graph
    */
   nodeSet(): HashSet<N> {
@@ -119,9 +140,9 @@ export class CardGraph<N extends CardNode, T extends CardTriple<N>> {
   }
 
   /**
-   * Returns an triple connecting subject node to object node if such vertices and such triple
+   * Returns an triple connecting subject node to object node if such nodes and such triple
    * exist in this graph. Otherwise returns <code>undefined</code>. If any of the specified
-   * vertices is <code>undefined</code> returns <code>undefined</code>.
+   * nodes is <code>undefined</code> returns <code>undefined</code>.
    *
    * @param {N} subject the subject node of the triple.
    * @param {N} object the object node of the triple.
@@ -164,9 +185,9 @@ export class CardGraph<N extends CardNode, T extends CardTriple<N>> {
   }
 
   /**
-   * Returns a set of all triples connecting subject node to object node if such vertices exist
-   * in this graph. If any of the vertices does not exist or is <code>undefined</code>, returns
-   * <code>undefined</code>. If both vertices exist but no triples found, returns an empty set.
+   * Returns a set of all triples connecting subject node to object node if such nodes exist
+   * in this graph. If any of the nodes does not exist or is <code>undefined</code>, returns
+   * <code>undefined</code>. If both nodes exist but no triples found, returns an empty set.
    *
    * @param {N} subject the subject node of the triple.
    * @param {N} object the object node of the triple.
@@ -272,7 +293,7 @@ export class CardGraph<N extends CardNode, T extends CardTriple<N>> {
   }
 
   /**
-   * Removes an triple going from subject node to object node, if such vertices and such triple
+   * Removes an triple going from subject node to object node, if such nodes and such triple
    * exist in this graph. Returns the triple if removed or <code>undefined</code> otherwise.
    *
    * @param {N} subject the subject node of the triple.
@@ -350,7 +371,7 @@ export class CardGraph<N extends CardNode, T extends CardTriple<N>> {
   /**
    * Removes all the triples going from the specified subject node to the specified object node,
    * and returns a set of all removed triples. Returns <code>undefined</code> if any of the specified
-   * vertices does not exist in the graph. If both vertices exist but no triple is found, returns an
+   * nodes does not exist in the graph. If both nodes exist but no triple is found, returns an
    * empty set.
    *
    * @param {N} subject the subject node of the triple.
@@ -373,24 +394,24 @@ export class CardGraph<N extends CardNode, T extends CardTriple<N>> {
   }
 
   /**
-   * Removes all the vertices in this graph that are also contained in the specified node
-   * collection. After this call returns, this graph will contain no vertices in common with the
-   * specified vertices.
+   * Removes all the nodes in this graph that are also contained in the specified node
+   * collection. After this call returns, this graph will contain no nodes in common with the
+   * specified nodes.
    *
-   * @param {N[]} vertices the vertices to be removed from this graph.
+   * @param {N[]} nodes the nodes to be removed from this graph.
    * @returns {boolean} <tt>true</tt> if this graph changed as a result of the call
    * @memberof Graph
    */
-  removeAllNodes(vertices: N[]): boolean {
+  removeAllNodes(nodes: N[]): boolean {
     let changed = false
-    for (const node of vertices) {
+    for (const node of nodes) {
       changed = this.removeNode(node) || changed
     }
     return changed
   }
 
   /**
-   * Removes all triples and vertices from the graph.
+   * Removes all triples and nodes from the graph.
    *
    * @memberof Graph
    */
