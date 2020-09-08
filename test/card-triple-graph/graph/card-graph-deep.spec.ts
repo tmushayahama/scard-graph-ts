@@ -1,5 +1,5 @@
 import { HashSet } from '../../../src/hash/hashset'
-import { CardNode } from '../../../src/card-triple-graph/card-node'
+import { CardNode, CardNodeType } from '../../../src/card-triple-graph/card-node'
 import { CardTriple } from '../../../src/card-triple-graph/card-triple'
 import { CardGraph } from '../../../src/card-triple-graph/card-graph'
 
@@ -19,7 +19,7 @@ describe('CardGraph', () => {
         n2 = new CardNode('n2', 'n2-label')
         n3 = new CardNode('n3', 'n3-label')
         n4 = new CardNode('n4', 'n4-label')
-        p1 = new CardNode('p1', 'p1-label')
+        p1 = new CardNode('p1', 'p1-label', CardNodeType.predicate)
         t1 = new CardTriple(n1, p1, n2)
         t2 = new CardTriple(n2, p1, n4)
         t3 = new CardTriple(n3, p1, n4)
@@ -30,13 +30,36 @@ describe('CardGraph', () => {
 
         describe('root node', () => {
             beforeEach(() => {
-                graph.addNodes([n1, n2, n3, n4])
+                graph.addNodes([n1, n2, n3, n4, p1])
                 graph.addTriples([t1, t2, t3]);
             })
 
             it('should return 2 nodes', () => {
                 expect(graph.getRootNodes().length).toEqual(2)
             })
+
         })
+
+
+    })
+
+    describe('.add node', () => {
+
+        describe('add node', () => {
+            beforeEach(() => {
+                graph.addNodes([n1, n2, n3, n4, p1])
+                graph.addTriples([t1, t2, t3]);
+            })
+
+            it('should return n2 node', () => {
+                expect(graph.getNode('n2')).toEqual(n2)
+            })
+
+            it('should return n3 node label', () => {
+                expect(graph.getNode('n3').label).toEqual('n3-label')
+            })
+        })
+
+
     })
 });

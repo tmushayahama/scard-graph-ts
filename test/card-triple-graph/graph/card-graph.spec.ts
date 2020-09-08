@@ -1,6 +1,6 @@
 
 import { HashSet } from '../../../src/hash/hashset'
-import { CardNode } from '../../../src/card-triple-graph/card-node'
+import { CardNode, CardNodeType } from '../../../src/card-triple-graph/card-node'
 import { CardTriple } from '../../../src/card-triple-graph/card-triple'
 import { CardGraph } from '../../../src/card-triple-graph/card-graph'
 
@@ -15,7 +15,7 @@ describe('CardGraph', () => {
   beforeEach(() => {
     subject = new CardNode('n1', 'n1-label')
     object = new CardNode('n2', 'n2-label')
-    predicate = new CardNode('p1', 'p1-label')
+    predicate = new CardNode('p1', 'p1-label', CardNodeType.predicate)
     t1 = new CardTriple(subject, predicate, object)
     t2 = new CardTriple(object, predicate, subject)
     graph = new CardGraph<CardNode, CardTriple<CardNode>>()
@@ -49,8 +49,22 @@ describe('CardGraph', () => {
     describe('when the graph does contain the triple', () => {
       beforeEach(() => {
         graph.addNode(subject)
+        graph.addNode(predicate)
         graph.addNode(object)
         graph.addTriple(t1)
+      })
+
+      it('should return true', () => {
+        expect(graph.containsTriple(t1)).toEqual(true)
+      })
+    })
+
+    describe('when the graph does contain the triple by id', () => {
+      beforeEach(() => {
+        graph.addNode(subject)
+        graph.addNode(predicate)
+        graph.addNode(object)
+        graph.addTripleByIds(subject.id, predicate.id, object.id)
       })
 
       it('should return true', () => {
@@ -83,6 +97,7 @@ describe('CardGraph', () => {
     describe('when the graph contains source and target but not the triple', () => {
       beforeEach(() => {
         graph.addNode(subject)
+        graph.addNode(predicate)
         graph.addNode(object)
       })
 
@@ -94,8 +109,22 @@ describe('CardGraph', () => {
     describe('when the graph does contain the triple', () => {
       beforeEach(() => {
         graph.addNode(subject)
+        graph.addNode(predicate)
         graph.addNode(object)
         graph.addTriple(t1)
+      })
+
+      it('should return a hashset containing the triple', () => {
+        expect(graph.getAllTriples(subject, object)).toEqual(new HashSet<CardTriple<CardNode>>([t1]))
+      })
+    })
+
+    describe('when the graph does contain the triple by ids', () => {
+      beforeEach(() => {
+        graph.addNode(subject)
+        graph.addNode(predicate)
+        graph.addNode(object)
+        graph.addTripleByIds(subject.id, predicate.id, object.id)
       })
 
       it('should return a hashset containing the triple', () => {
@@ -128,6 +157,7 @@ describe('CardGraph', () => {
     describe('when the graph does contain source and target but not the triple', () => {
       beforeEach(() => {
         graph.addNode(subject)
+        graph.addNode(predicate)
         graph.addNode(object)
       })
 
@@ -139,12 +169,26 @@ describe('CardGraph', () => {
     describe('when the graph does contain the triple', () => {
       beforeEach(() => {
         graph.addNode(subject)
+        graph.addNode(predicate)
         graph.addNode(object)
         graph.addTriple(t1)
       })
 
       it('should return the triple', () => {
         expect(graph.getTriple(subject, object)).toBe(t1)
+      })
+    })
+
+    describe('when the graph does contain the triple (addTripleById', () => {
+      beforeEach(() => {
+        graph.addNode(subject)
+        graph.addNode(predicate)
+        graph.addNode(object)
+        graph.addTripleByIds(subject.id, predicate.id, object.id)
+      })
+
+      it('should return the triple', () => {
+        expect(graph.getTriple(subject, object)).toEqual(t1)
       })
     })
   })
@@ -157,6 +201,16 @@ describe('CardGraph', () => {
 
       it('should throw an error', () => {
         expect(() => graph.addTriple(t1)).toThrow()
+      })
+    })
+
+    describe('when the graph does not contain the source node (tripleById)', () => {
+      beforeEach(() => {
+        graph.addNode(object)
+      })
+
+      it('should throw an error', () => {
+        expect(() => graph.addTripleByIds(subject.id, predicate.id, object.id)).toThrow()
       })
     })
 
@@ -173,6 +227,7 @@ describe('CardGraph', () => {
     describe('when the graph does contain the source and the target node', () => {
       beforeEach(() => {
         graph.addNode(subject)
+        graph.addNode(predicate)
         graph.addNode(object)
       })
 
@@ -184,8 +239,22 @@ describe('CardGraph', () => {
     describe('when the graph does contain the triple', () => {
       beforeEach(() => {
         graph.addNode(subject)
+        graph.addNode(predicate)
         graph.addNode(object)
         graph.addTriple(t1)
+      })
+
+      it('should return false', () => {
+        expect(graph.addTriple(t1)).toEqual(false)
+      })
+    })
+
+    describe('when the graph does contain the triple  (tripleById)', () => {
+      beforeEach(() => {
+        graph.addNode(subject)
+        graph.addNode(predicate)
+        graph.addNode(object)
+        graph.addTripleByIds(subject.id, predicate.id, object.id)
       })
 
       it('should return false', () => {
@@ -222,8 +291,22 @@ describe('CardGraph', () => {
     describe('when the graph does contain the triple', () => {
       beforeEach(() => {
         graph.addNode(subject)
+        graph.addNode(predicate)
         graph.addNode(object)
         graph.addTriple(t1)
+      })
+
+      it('should return a hashset containing the triple', () => {
+        expect(graph.tripleSet()).toEqual(new HashSet<CardTriple<CardNode>>([t1]))
+      })
+    })
+
+    describe('when the graph does contain the triple  (tripleById)', () => {
+      beforeEach(() => {
+        graph.addNode(subject)
+        graph.addNode(predicate)
+        graph.addNode(object)
+        graph.addTripleByIds(subject.id, predicate.id, object.id)
       })
 
       it('should return a hashset containing the triple', () => {
@@ -270,8 +353,26 @@ describe('CardGraph', () => {
     describe('when the graph does contain an triple', () => {
       beforeEach(() => {
         graph.addNode(subject)
+        graph.addNode(predicate)
         graph.addNode(object)
         graph.addTriple(t1)
+      })
+
+      it('should return an empty hashset for the source of the triple', () => {
+        expect(graph.incomingTriplesOf(subject)).toEqual(HashSet.EMPTY)
+      })
+
+      it('should return a hashset containing the triple for the target of the triple', () => {
+        expect(graph.incomingTriplesOf(object)).toEqual(new HashSet<CardTriple<CardNode>>([t1]))
+      })
+    })
+
+    describe('when the graph does contain an triple  (tripleById)', () => {
+      beforeEach(() => {
+        graph.addNode(subject)
+        graph.addNode(predicate)
+        graph.addNode(object)
+        graph.addTripleByIds(subject.id, predicate.id, object.id)
       })
 
       it('should return an empty hashset for the source of the triple', () => {
@@ -304,6 +405,7 @@ describe('CardGraph', () => {
     describe('when the graph does contain an triple', () => {
       beforeEach(() => {
         graph.addNode(subject)
+        graph.addNode(predicate)
         graph.addNode(object)
         graph.addTriple(t1)
       })
@@ -338,6 +440,7 @@ describe('CardGraph', () => {
     describe('when the graph does contain an triple', () => {
       beforeEach(() => {
         graph.addNode(subject)
+        graph.addNode(predicate)
         graph.addNode(object)
         graph.addTriple(t1)
       })
@@ -372,6 +475,7 @@ describe('CardGraph', () => {
     describe('when the graph does contain an triple', () => {
       beforeEach(() => {
         graph.addNode(subject)
+        graph.addNode(predicate)
         graph.addNode(object)
         graph.addTriple(t1)
       })
@@ -410,6 +514,7 @@ describe('CardGraph', () => {
     describe('when the graph does contain source and target but not the triple', () => {
       beforeEach(() => {
         graph.addNode(subject)
+        graph.addNode(predicate)
         graph.addNode(object)
       })
 
@@ -421,6 +526,7 @@ describe('CardGraph', () => {
     describe('when the graph does contain the triple', () => {
       beforeEach(() => {
         graph.addNode(subject)
+        graph.addNode(predicate)
         graph.addNode(object)
         graph.addTriple(t1)
       })
@@ -455,6 +561,7 @@ describe('CardGraph', () => {
     describe('when the graph does contain source and target but not the triple', () => {
       beforeEach(() => {
         graph.addNode(subject)
+        graph.addNode(predicate)
         graph.addNode(object)
       })
 
@@ -466,6 +573,7 @@ describe('CardGraph', () => {
     describe('when the graph does contain the triple', () => {
       beforeEach(() => {
         graph.addNode(subject)
+        graph.addNode(predicate)
         graph.addNode(object)
         graph.addTriple(t1)
       })
@@ -504,6 +612,7 @@ describe('CardGraph', () => {
     describe('when the graph does contain an triple', () => {
       beforeEach(() => {
         graph.addNode(subject)
+        graph.addNode(predicate)
         graph.addNode(object)
         graph.addTriple(t1)
       })
@@ -538,6 +647,7 @@ describe('CardGraph', () => {
     describe('when the graph does contain source and target but not the triple', () => {
       beforeEach(() => {
         graph.addNode(subject)
+        graph.addNode(predicate)
         graph.addNode(object)
       })
 
@@ -549,6 +659,7 @@ describe('CardGraph', () => {
     describe('when the graph does contain the triple', () => {
       beforeEach(() => {
         graph.addNode(subject)
+        graph.addNode(predicate)
         graph.addNode(object)
         graph.addTriple(t1)
       })
@@ -581,6 +692,7 @@ describe('CardGraph', () => {
     describe('when the graph does contain both nodes', () => {
       beforeEach(() => {
         graph.addNode(subject)
+        graph.addNode(predicate)
         graph.addNode(object)
       })
 

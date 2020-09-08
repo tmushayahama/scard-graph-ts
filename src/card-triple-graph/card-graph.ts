@@ -1,7 +1,7 @@
 import { find } from 'lodash';
 import { HashMap } from '../hash/hashmap'
 import { HashSet } from '../hash/hashset'
-import { CardNode } from './card-node'
+import { CardNode, CardNodeType } from './card-node'
 import { CardTriple } from './card-triple'
 
 /**
@@ -69,6 +69,10 @@ export class CardGraph<N extends CardNode, T extends CardTriple<N>> {
   addTriple(triple: T): boolean {
     if (!this.containsNode(triple.subject)) {
       throw Error('subject of triple not found in graph')
+    }
+
+    if (!this.containsNode(triple.predicate)) {
+      throw Error('predicate of triple not found in graph')
     }
 
     if (!this.containsNode(triple.object)) {
@@ -434,7 +438,7 @@ export class CardGraph<N extends CardNode, T extends CardTriple<N>> {
     const result: N[] = []
 
     self.map.forEach((value, node: N) => {
-      if (self.inDegreeOf(node) === 0) {
+      if (self.inDegreeOf(node) === 0 && node.type === CardNodeType.node) {
         result.push(node)
       }
     })

@@ -1,12 +1,19 @@
 import { Hashable } from '../hash/hashable'
 
-export class CardNode implements Hashable {
-  readonly id: string
-  readonly label: string
+export enum CardNodeType {
+  node = 'node',
+  predicate = 'predicate'
+}
 
-  constructor(id: string, label: string) {
+export class CardNode implements Hashable {
+  readonly id: string;
+  readonly label: string;
+  readonly type: CardNodeType;
+
+  constructor(id: string, label: string, type: CardNodeType = CardNodeType.node) {
     this.id = id;
     this.label = label;
+    this.type = type ? type : CardNodeType.node;
   }
 
   get hashKey(): string {

@@ -15,7 +15,7 @@ export class CardTriple<N extends CardNode> implements Hashable {
   }
 
   get hashKey(): string {
-    return `CardTriple(${this.subject.hashKey}, ${this.object.hashKey}, ${this.weight})`
+    return `CardTriple(${this.subject.hashKey},${this.predicate.hashKey}, ${this.object.hashKey}, ${this.weight})`
   }
 
   equals(other: Object): boolean {
