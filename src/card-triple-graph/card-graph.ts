@@ -1,4 +1,3 @@
-import { find } from 'lodash';
 import { HashMap } from '../hash/hashmap'
 import { HashSet } from '../hash/hashset'
 import { CardNode, CardNodeType } from './card-node'
@@ -438,7 +437,7 @@ export class CardGraph<N extends CardNode, T extends CardTriple<N>> {
     const result: N[] = []
 
     self.map.forEach((value, node: N) => {
-      if (self.inDegreeOf(node) === 0 && node.type === CardNodeType.node) {
+      if (self.inDegreeOf(node) === 0 && node.nodeType === CardNodeType.node) {
         result.push(node)
       }
     })

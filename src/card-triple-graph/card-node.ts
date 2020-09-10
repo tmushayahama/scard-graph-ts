@@ -8,12 +8,12 @@ export enum CardNodeType {
 export class CardNode implements Hashable {
   readonly id: string;
   readonly label: string;
-  readonly type: CardNodeType;
+  readonly nodeType: CardNodeType;
 
-  constructor(id: string, label: string, type: CardNodeType = CardNodeType.node) {
+  constructor(id: string, label: string, nodeType: CardNodeType = CardNodeType.node) {
     this.id = id;
     this.label = label;
-    this.type = type ? type : CardNodeType.node;
+    this.nodeType = nodeType ? nodeType : CardNodeType.node;
   }
 
   get hashKey(): string {
