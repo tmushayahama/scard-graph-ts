@@ -1,5 +1,5 @@
 import { HashSet } from '../../../src/hash/hashset'
-import { CardNode, CardNodeType } from '../../../src/card-triple-graph/card-node'
+import { CardNode, NodeType } from '../../../src/card-triple-graph/card-node'
 import { CardTriple } from '../../../src/card-triple-graph/card-triple'
 import { CardGraph } from '../../../src/card-triple-graph/card-graph'
 
@@ -19,7 +19,7 @@ describe('CardGraph', () => {
         n2 = new CardNode('n2', 'n2-label')
         n3 = new CardNode('n3', 'n3-label')
         n4 = new CardNode('n4', 'n4-label')
-        p1 = new CardNode('p1', 'p1-label', CardNodeType.predicate)
+        p1 = new CardNode('p1', 'p1-label', NodeType.predicate)
         t1 = new CardTriple(n1, p1, n2)
         t2 = new CardTriple(n2, p1, n4)
         t3 = new CardTriple(n3, p1, n4)

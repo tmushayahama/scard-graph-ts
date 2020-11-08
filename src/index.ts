@@ -6,9 +6,9 @@ import { Graph } from './core/graph'
 import { Vertex } from './core/vertex'
 import { CardTriple } from './card-triple-graph/card-triple'
 import { CardGraph } from './card-triple-graph/card-graph'
-import { CardNode, CardNodeType } from './card-triple-graph/card-node'
+import { CardNode, NodeType } from './card-triple-graph/card-node'
 
 
 
 export { Edge, Graph, Vertex }
-export { CardTriple, CardGraph, CardNode, CardNodeType }
+export { CardTriple, CardGraph, CardNode, NodeType }

@@ -1,6 +1,6 @@
 import { HashMap } from '../hash/hashmap'
 import { HashSet } from '../hash/hashset'
-import { CardNode, CardNodeType } from './card-node'
+import { CardNode, NodeType } from './card-node'
 import { CardTriple } from './card-triple'
 
 /**
@@ -437,7 +437,7 @@ export class CardGraph<N extends CardNode, T extends CardTriple<N>> {
     const result: N[] = []
 
     self.map.forEach((value, node: N) => {
-      if (self.inDegreeOf(node) === 0 && node.nodeType === CardNodeType.node) {
+      if (self.inDegreeOf(node) === 0 && node.nodeType === NodeType.node) {
         result.push(node)
       }
     })
