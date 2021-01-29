@@ -22,8 +22,6 @@ export class CardGraph<N extends CardNode, T extends CardTriple<N>> {
    */
   protected readonly triples = new HashSet<T>();
 
-  protected readonly predicates = new HashSet<T>();
-
   tripleMatrix: any = {};
 
   constructor() { }
@@ -130,6 +128,26 @@ export class CardGraph<N extends CardNode, T extends CardTriple<N>> {
    */
   nodeSet(): HashSet<N> {
     return new HashSet(this.map.keys())
+  }
+
+  /**
+   * Returns an array of nodes (not with predicates)
+   *
+   */
+
+  nodes(): N[] {
+    const nodes: N[] = this.nodesByType(NodeType.node);
+    return nodes;
+  }
+
+  /**
+  * Returns an array of predicates (not with predicates)
+  *
+  */
+
+  predicates(): N[] {
+    const nodes: N[] = this.nodesByType(NodeType.predicate);
+    return nodes;
   }
 
   /**
@@ -442,5 +460,23 @@ export class CardGraph<N extends CardNode, T extends CardTriple<N>> {
       }
     })
     return result;
+  }
+
+  /**
+   * Returns Returns an array of nodes by node type (node or predicates)
+   * @param nodeType 
+   */
+
+  private nodesByType(nodeType: NodeType): N[] {
+    const nodes: N[] = []
+    const nodeSet = this.nodeSet();
+
+    nodeSet.forEach((node) => {
+      if (node.nodeType === nodeType) {
+        nodes.push(node);
+      }
+    })
+
+    return nodes;
   }
 }

@@ -9,6 +9,7 @@ describe('CardGraph', () => {
     let n3: CardNode;
     let n4: CardNode;
     let p1: CardNode;
+    let p2: CardNode;
     let t1: CardTriple<CardNode>;
     let t2: CardTriple<CardNode>;
     let t3: CardTriple<CardNode>;
@@ -20,6 +21,7 @@ describe('CardGraph', () => {
         n3 = new CardNode('n3', 'n3-label')
         n4 = new CardNode('n4', 'n4-label')
         p1 = new CardNode('p1', 'p1-label', NodeType.predicate)
+        p2 = new CardNode('p2', 'p2-label', NodeType.predicate)
         t1 = new CardTriple(n1, p1, n2)
         t2 = new CardTriple(n2, p1, n4)
         t3 = new CardTriple(n3, p1, n4)
@@ -37,10 +39,7 @@ describe('CardGraph', () => {
             it('should return 2 nodes', () => {
                 expect(graph.getRootNodes().length).toEqual(2)
             })
-
         })
-
-
     })
 
     describe('.add node', () => {
@@ -59,7 +58,23 @@ describe('CardGraph', () => {
                 expect(graph.getNode('n3').label).toEqual('n3-label')
             })
         })
+    })
 
+    describe('.get nodes and predicates', () => {
 
+        describe('get nodes', () => {
+            beforeEach(() => {
+                graph.addNodes([n1, n2, n3, p1, n4, p2])
+                graph.addTriples([t1, t2, t3]);
+            })
+
+            it('should return n2 node', () => {
+                expect(graph.nodes().length).toEqual(4)
+            })
+
+            it('should return n2 node', () => {
+                expect(graph.predicates().length).toEqual(2)
+            })
+        })
     })
 });
