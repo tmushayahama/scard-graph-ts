@@ -60,6 +60,36 @@ describe('CardGraph', () => {
         })
     })
 
+    describe('.add triple', () => {
+
+        describe('check node type', () => {
+            beforeEach(() => {
+                graph.addNodes([n1, n2, n3, n4, p1])
+            })
+
+            it('wrong predicate, should throw error', () => {
+                const triple = new CardTriple(n3, n3, n4)
+                expect(() => graph.addTriple(triple)).toThrow()
+            })
+
+            it('wrong subject, should throw error', () => {
+                const triple = new CardTriple(p2, p1, n4)
+                expect(() => graph.addTriple(triple)).toThrow()
+            })
+
+            it('wrong object, should throw error', () => {
+                const triple = new CardTriple(n3, p2, p1)
+                expect(() => graph.addTriple(triple)).toThrow()
+            })
+
+            it('wrong object and subject, should throw error', () => {
+                const triple = new CardTriple(p1, n3, p2)
+                expect(() => graph.addTriple(triple)).toThrow()
+            })
+
+        })
+    })
+
     describe('.get nodes and predicates', () => {
 
         describe('get nodes', () => {

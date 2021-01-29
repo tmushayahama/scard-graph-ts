@@ -1,6 +1,6 @@
 {
   "name": "scard-graph-ts",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "",
   "keywords": [],
   "main": "dist/scard-graph-ts.umd.js",

@@ -76,6 +76,12 @@ export class CardGraph<N extends CardNode, T extends CardTriple<N>> {
       throw Error('object of triple not found in graph')
     }
 
+    if (triple.subject.nodeType !== NodeType.node ||
+      triple.object.nodeType !== NodeType.node ||
+      triple.predicate.nodeType !== NodeType.predicate) {
+      throw Error('wrong node type')
+    }
+
     if (!this.tripleMatrix[triple.subject]) {
       this.tripleMatrix[triple.subject] = {};
     }
